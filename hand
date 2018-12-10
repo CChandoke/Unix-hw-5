@@ -1,0 +1,45 @@
+#include <iostream>
+#include <stdio.h>
+##include <signal.h>
+##include "mytools.h"
+##include <assert.h>
+#using namespace std;
+#
+#int main (int argc, char **argv)
+#	{
+#		int aflag = 0;
+#			int bflag = 0;
+#				char *cvalue = NULL;
+#					int index;
+#						int c;
+#
+#							opterr = 0;
+#
+#								while ((c = getopt (argc, argv, "p:")) != -1)
+#										switch (c)
+#													{
+#																case 'p':
+#																			percentage = atoi(optarg);		// convert string to integer
+#																						if (get_random_number() <= percentage)
+#																										fprintf (stdout, "Success\n");
+#																													else fprintf (stdout, "Success\n");
+#																																case '?':
+#																																			if (optopt == 'p')
+#																																							fprintf (stderr, "Option -%p requires an argument.\n", optopt);
+#																																										else if (isprint (optopt))
+#																																														fprintf (stderr, "Unknown option `-%p'.\n", optopt);
+#																																																	else
+#																																																					fprintf (stderr,
+#																																																										"Unknown option character `\\x%x'.\n",
+#																																																															optopt);
+#																																																																		return 1;
+#																																																																					default:
+#																																																																								abort ();
+#																																																																											}
+#																																																																												}
+#																																																																													
+#
+#																																																																														
+#																																																																															
+#
+#																																																																																
