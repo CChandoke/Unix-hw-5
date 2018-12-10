@@ -1,45 +1,53 @@
-#include <iostream>
+#inlude <getopt.h>
+#include <stddef.h>
 #include <stdio.h>
-##include <signal.h>
-##include "mytools.h"
-##include <assert.h>
-#using namespace std;
-#
-#int main (int argc, char **argv)
-#	{
-#		int aflag = 0;
-#			int bflag = 0;
-#				char *cvalue = NULL;
-#					int index;
-#						int c;
-#
-#							opterr = 0;
-#
-#								while ((c = getopt (argc, argv, "p:")) != -1)
-#										switch (c)
-#													{
-#																case 'p':
-#																			percentage = atoi(optarg);		// convert string to integer
-#																						if (get_random_number() <= percentage)
-#																										fprintf (stdout, "Success\n");
-#																													else fprintf (stdout, "Success\n");
-#																																case '?':
-#																																			if (optopt == 'p')
-#																																							fprintf (stderr, "Option -%p requires an argument.\n", optopt);
-#																																										else if (isprint (optopt))
-#																																														fprintf (stderr, "Unknown option `-%p'.\n", optopt);
-#																																																	else
-#																																																					fprintf (stderr,
-#																																																										"Unknown option character `\\x%x'.\n",
-#																																																															optopt);
-#																																																																		return 1;
-#																																																																					default:
-#																																																																								abort ();
-#																																																																											}
-#																																																																												}
-#																																																																													
-#
-#																																																																														
-#																																																																															
-#
-#																																																																																
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+#include <gsl/gsl_rng.h>
+#include "commonFunc.c"
+
+int main(int argc, char * const argv[]) {
+
+	//initialize/declare vars
+
+		int opt;
+			unsigned percentage = -1;
+
+				//read cmdline args
+
+					while ((opt = getopt(argc, argv, "p:")) != -1) {
+							switch (opt) {
+										case 'p':
+														percentage = atoi(optarg);
+																		break;
+									default:
+											fprintf(stderr, "Usage: %s -p <percentage>\n", argv[0]);
+																													exit(EXIT_FAILURE);
+																															}
+																																}
+
+																																	if (percentage == -1)
+																																			printError("You need to specify a percentage!");
+
+																																				//main functionality
+
+																																					gsl_rng *rng = gsl_rng_alloc(gsl_rng_mt19937);
+																																						struct timespec tp;
+																																							clock_gettime(CLOCK_REALTIME, &tp);
+																																								gsl_rng_set(rng, tp.tv_nsec);
+																																									if (rng == NULL)
+																																											printError("Failed to initialize GSL random number generator! Aborting.");
+
+																																												double randVal = gsl_rng_uniform (rng) * 100;
+																																													gsl_rng_free (rng);
+
+																																														if (randVal <= percentage) {
+																																																//printf("success!\n"); //testing
+																																																		exit(TRIAL_SUCCESS);
+																																																			} else {
+																																																					//printf("failure!\n"); //testing
+																																																							exit(TRIAL_FAILURE);
+																																																								}
+																																																								}
+																																																								
