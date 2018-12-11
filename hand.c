@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include "gsl/gsl_rng.h"		// quotes -- search locally instead of in usr/lib, etc.
+#include <gsl/gsl_rng.h>	
 #include "commonFunc.c"
 
 int main(int argc, char * const argv[]) {
