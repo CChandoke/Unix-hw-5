@@ -10,14 +10,14 @@
 
 int main(int argc, char * const argv[]) {
 
-	//initialize/declare vars
+	//declare variables, initialize
 
 	int opt;
 	size_t percentage = -1;
 
-	//read cmdline args
+	//read command line args
 
-	opterr = 0;		// set to 0 so getopt will ignore nonsense options 
+	opterr = 0;		// tell getopt to ignore nonsense options 
 					// rather than output error messages by default
 	
 	while ((opt = getopt(argc, argv, "p:")) != -1) 
@@ -30,7 +30,7 @@ int main(int argc, char * const argv[]) {
 			}
 		}
 
-	if (percentage == -1)	// error
+	if (percentage == -1)	// error case
 		printError("You need to specify a percentage!");
 
 	//main functionality
@@ -38,23 +38,24 @@ int main(int argc, char * const argv[]) {
 	gsl_rng *rng = gsl_rng_alloc(gsl_rng_mt19937);
 	struct timespec tp;
 	clock_gettime(CLOCK_REALTIME, &tp);		// used as seed for random number generator
-	gsl_rng_set(rng, tp.tv_nsec);		// convert to nanoseconds (so seed is different for each 
+	gsl_rng_set(rng, tp.tv_nsec);		// use time in nanoseconds (so seed is different for each 
 										// child process) and generate random number
 	if (rng == NULL)
 		printError("Failed to initialize GSL random number generator! Aborting.");
 
-	double randVal = gsl_rng_uniform (rng) * 100;	// convert to percentage
+	double randVal = gsl_rng_uniform (rng) * 100;	// convert random number to percentage
 	gsl_rng_free (rng);		
 
 	if (randVal <= percentage) 
 		{		
-		//printf("success!\n"); //testing
+		printf("success!\n"); 
 		exit(TRIAL_SUCCESS);
 		} 
 	else 
 		{
-		//printf("failure!\n"); //testing
-		exit(TRIAL_FAILURE);
+		printf("failure!\n");
+		exit(TRIAL_FAILURE);		
 		}
+		
 }
 
